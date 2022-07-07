@@ -3,6 +3,9 @@ import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 
+export type filteredButtonType = "All" | "Active" | "Completed"
+
+
 function App() {
 
     let [tasks, setTasks] = useState([
@@ -19,13 +22,27 @@ function App() {
         setTasks([{id: v1(), title: newTitle, isDone: false},...tasks])
     }
 
+    let [filter, setFilter] = useState<filteredButtonType>('All')
+
+    if (filter === "Active") {
+        tasks = tasks.filter((filtered)=>filtered.isDone === true)
+    }
+
+    if (filter === "Completed") {
+        tasks = tasks.filter((filtered)=>filtered.isDone === false)
+    }
+
+    const filteredButton = (value:filteredButtonType) => {
+        setFilter(value)
+    }
 
     return (
         <div className="App">
             <Todolist title={"What To Learn "}
                       tasks={tasks}
                       addTasks={addTasks}
-                      removeTasks={removeTasks}/>
+                      removeTasks={removeTasks}
+                      filteredButton={filteredButton} />
         </div>
     );
 }
