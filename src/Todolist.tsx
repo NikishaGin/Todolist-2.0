@@ -19,6 +19,7 @@ type TodolistType = {
     checkedTasks:(todolistID: string,id: string,isDone: boolean)=>void
     filteredButton:(todolistID: string,value: filteredButtonType)=>void
     removeTodolist:(id:string)=>void
+    editTodolist:(todolistID: string,newTitle: string)=>void
 }
 
 export const Todolist = (props: TodolistType) => {
@@ -31,10 +32,16 @@ export const Todolist = (props: TodolistType) => {
         props.addTasks(props.id,newTitle)
     }
 
+    const editTodolistHandler = (newTitle: string) => {
+        props.editTodolist(props.id,newTitle)
+    }
+
+
+
     return (
         <div>
             <h3>
-            <EditableSpan title={props.title}/>
+            <EditableSpan title={props.title} callback={editTodolistHandler}/>
             <button onClick={()=>props.removeTodolist(props.id)}>X</button>
             </h3>
             <AddItemForm callback={AddItemFormHandler}  />

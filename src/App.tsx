@@ -35,6 +35,10 @@ function App() {
         ]
     })
 
+    const editTodolist = (todolistID: string,newTitle: string) => {
+            setTodolists([...todolists.map((edit)=>edit.id === todolistID ? {...edit,title:newTitle}: edit)])
+    }
+
 
     const removeTodolist = (id:string) => {
         setTodolists([...todolists.filter((filteredTodo)=>filteredTodo.id !== id)])
@@ -90,7 +94,8 @@ function App() {
                               filteredButton={filteredButton}
                               filter={mapID.filter}
                               checkedTasks={checkedTasks}
-                              removeTodolist={removeTodolist}/>
+                              removeTodolist={removeTodolist}
+                              editTodolist={editTodolist}/>
                 )
             })}
         </div>
