@@ -1,6 +1,7 @@
 import {ChangeEvent, useState} from "react";
 import {filteredButtonType, TodolistsType} from "./App";
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type TasksType = {
     id: string,
@@ -31,7 +32,11 @@ export const Todolist = (props: TodolistType) => {
     }
 
     return (
-        <div><h3>{props.title} <button onClick={()=>props.removeTodolist(props.id)}>X</button></h3>
+        <div>
+            <h3>
+            <EditableSpan title={props.title}/>
+            <button onClick={()=>props.removeTodolist(props.id)}>X</button>
+            </h3>
             <AddItemForm callback={AddItemFormHandler}  />
             <ul>
                 {props.tasks.map((el) => {
