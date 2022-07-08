@@ -1,5 +1,5 @@
 import {ChangeEvent, useState} from "react";
-import {filteredButtonType} from "./App";
+import {filteredButtonType, TodolistsType} from "./App";
 
 type TasksType = {
     id: string,
@@ -8,11 +8,14 @@ type TasksType = {
 }
 
 type TodolistType = {
+    id: string
     title: string
     tasks: TasksType []
-    addTasks: (newTitle: string) => void
-    removeTasks: (id: string) => void
-    filteredButton:(value: filteredButtonType)=>void
+    addTasks: (todolistID: string,newTitle: string) => void
+    removeTasks: (todolistID: string,id:string) => void
+    filter: string
+    checkedTasks:(todolistID: string,id: string,isDone: boolean)=>void
+    filteredButton:(todolistID: string,value: filteredButtonType)=>void
 }
 
 export const Todolist = (props: TodolistType) => {
@@ -24,12 +27,12 @@ export const Todolist = (props: TodolistType) => {
     }
 
     const addTasksHandler = () => {
-        props.addTasks(title);
+        props.addTasks(props.id,title);
         setTitle('')
     }
 
-    const removeTasksHandler = (id: string) => {
-        props.removeTasks(id)
+    const removeTasksHandler = (todolistID: string, id:string) => {
+        props.removeTasks(props.id,id)
     }
 
 
@@ -39,16 +42,20 @@ export const Todolist = (props: TodolistType) => {
             <button onClick={addTasksHandler}>+</button>
             <ul>
                 {props.tasks.map((el) => {
+                    let checkedHandler = (e:ChangeEvent<HTMLInputElement>) => {
+                        let newIsDoneValue = e.currentTarget.checked
+                        props.checkedTasks(props.id,el.id, newIsDoneValue)
+                    }
                     return (
                         <li key={el.id}>
-                            <button onClick={(e) => removeTasksHandler(el.id)}>X</button>
-                            <input type={"checkbox"} checked={el.isDone}/><span>{el.title}</span></li>
+                            <button onClick={(e) => removeTasksHandler(props.id,el.id)}>X</button>
+                            <input type={"checkbox"} onChange={checkedHandler} checked={el.isDone}/><span>{el.title}</span></li>
                     )
                 })}
             </ul>
-            <button onClick={()=>props.filteredButton('All')}>All</button>
-            <button onClick={()=>props.filteredButton('Active')}>Active</button>
-            <button onClick={()=>props.filteredButton('Completed')}>Completed</button>
+            <button onClick={()=>props.filteredButton(props.id, 'All')}>All</button>
+            <button onClick={()=>props.filteredButton(props.id,'Active')}>Active</button>
+            <button onClick={()=>props.filteredButton(props.id,'Completed')}>Completed</button>
         </div>
     )
 }
