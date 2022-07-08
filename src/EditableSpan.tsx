@@ -2,7 +2,7 @@ import {ChangeEvent, useState} from "react";
 
 type PropsType = {
     title: string
-    callback:(changeTitle:string)=>void
+    callback:(newTitle:string)=>void
 }
 
 
