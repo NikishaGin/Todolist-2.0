@@ -1,5 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import {filteredButtonType, TodolistsType} from "./App";
+import {AddItemForm} from "./AddItemForm";
 
 type TasksType = {
     id: string,
@@ -16,30 +17,22 @@ type TodolistType = {
     filter: string
     checkedTasks:(todolistID: string,id: string,isDone: boolean)=>void
     filteredButton:(todolistID: string,value: filteredButtonType)=>void
+    removeTodolist:(id:string)=>void
 }
 
 export const Todolist = (props: TodolistType) => {
-
-    let [title, setTitle] = useState('')
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-
-    const addTasksHandler = () => {
-        props.addTasks(props.id,title);
-        setTitle('')
-    }
 
     const removeTasksHandler = (todolistID: string, id:string) => {
         props.removeTasks(props.id,id)
     }
 
+    const AddItemFormHandler = (newTitle: string) => {
+        props.addTasks(props.id,newTitle)
+    }
 
     return (
-        <div><h3>{props.title}</h3>
-            <input value={title} onChange={onChangeHandler}/>
-            <button onClick={addTasksHandler}>+</button>
+        <div><h3>{props.title} <button onClick={()=>props.removeTodolist(props.id)}>X</button></h3>
+            <AddItemForm callback={AddItemFormHandler}  />
             <ul>
                 {props.tasks.map((el) => {
                     let checkedHandler = (e:ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +42,8 @@ export const Todolist = (props: TodolistType) => {
                     return (
                         <li key={el.id}>
                             <button onClick={(e) => removeTasksHandler(props.id,el.id)}>X</button>
-                            <input type={"checkbox"} onChange={checkedHandler} checked={el.isDone}/><span>{el.title}</span></li>
+                            <input type={"checkbox"} onChange={checkedHandler} checked={el.isDone}/><span>{el.title}</span>
+                        </li>
                     )
                 })}
             </ul>

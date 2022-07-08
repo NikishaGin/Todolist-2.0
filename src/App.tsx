@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddItemForm";
 
 export type filteredButtonType = "All" | "Active" | "Completed"
 
@@ -12,12 +13,6 @@ export type TodolistsType = {
 }
 
 function App() {
-
-/*    let [tasks, setTasks] = useState([
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false}
-    ])*/
 
     let todolistID1 = v1()
     let todolistID2 = v1()
@@ -41,6 +36,9 @@ function App() {
     })
 
 
+    const removeTodolist = (id:string) => {
+        setTodolists([...todolists.filter((filteredTodo)=>filteredTodo.id !== id)])
+    }
 
     const checkedTasks = (todolistID: string,id: string,isDone: boolean) => {
         setTasks({...tasks,[todolistID]:tasks[todolistID].map((mapChecked)=>mapChecked.id === id ? {...mapChecked,isDone}:mapChecked)})
@@ -60,8 +58,16 @@ function App() {
         setTodolists(todolists.map((filtered)=>filtered.id === todolistID ? {...filtered, filter: value}:filtered))
     }
 
+    const AddTodolist = (newTitle: string) => {
+        let newID = v1()
+        let newTodolist: TodolistsType = {id: newID, title: newTitle, filter: 'All'}
+        setTodolists([newTodolist,...todolists])
+        setTasks({...tasks,[newID]:[]})
+    }
+
     return (
         <div className="App">
+            <AddItemForm callback={AddTodolist}/>
             {todolists.map((mapID)=>{
 
                 let filterTasks =  tasks[mapID.id]
@@ -77,13 +83,14 @@ function App() {
                 return (
                     <Todolist key={mapID.id}
                               id={mapID.id}
-                              title={"What To Learn "}
+                              title={mapID.title}
                               tasks={filterTasks}
                               addTasks={addTasks}
                               removeTasks={removeTasks}
                               filteredButton={filteredButton}
                               filter={mapID.filter}
-                              checkedTasks={checkedTasks}/>
+                              checkedTasks={checkedTasks}
+                              removeTodolist={removeTodolist}/>
                 )
             })}
         </div>
