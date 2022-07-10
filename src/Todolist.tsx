@@ -2,6 +2,9 @@ import {ChangeEvent, useState} from "react";
 import {filteredButtonType, TodolistsType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+import {pink} from "@mui/material/colors";
 
 type TasksType = {
     id: string,
@@ -48,7 +51,10 @@ export const Todolist = (props: TodolistType) => {
         <div>
             <h3>
             <EditableSpan title={props.title} callback={editTodolistHandler}/>
-            <button onClick={()=>props.removeTodolist(props.id)}>X</button>
+            {/*<button onClick={()=>props.removeTodolist(props.id)}>X</button>*/}
+                <IconButton aria-label="delete">
+                    <Delete onClick={()=>props.removeTodolist(props.id)}/>
+                </IconButton>
             </h3>
             <AddItemForm callback={AddItemFormHandler}  />
             <ul>
@@ -59,18 +65,29 @@ export const Todolist = (props: TodolistType) => {
                     }
                     return (
                         <li key={el.id}>
-                            <button onClick={(e) => removeTasksHandler(props.id,el.id)}>X</button>
-                            <input type={"checkbox"} onChange={checkedHandler}
-                                   checked={el.isDone}/>
+                            {/*<button onClick={() => removeTasksHandler(props.id,el.id)}>X</button>*/}
+                            <IconButton aria-label="delete" size="small">
+                                <Delete onClick={() => removeTasksHandler(props.id,el.id)} fontSize="small" />
+                            </IconButton>
+{/*                            <input type={"checkbox"} onChange={checkedHandler}
+                                   checked={el.isDone}/>*/}
+                            <Checkbox
+                                defaultChecked
+                                sx={{color: pink[800], '&.Mui-checked': {color: pink[600],},}}
+                                onChange={checkedHandler} checked={el.isDone}
+                            />
                             <EditableSpan title={el.title} callback={(newTitle)=>editTasksHandler(el.id,newTitle)} />
                             {/*<span>{el.title}</span>*/}
                         </li>
                     )
                 })}
             </ul>
-            <button onClick={()=>props.filteredButton(props.id, 'All')}>All</button>
-            <button onClick={()=>props.filteredButton(props.id,'Active')}>Active</button>
-            <button onClick={()=>props.filteredButton(props.id,'Completed')}>Completed</button>
+            {/*<button onClick={()=>props.filteredButton(props.id, 'All')}>All</button>*/}
+            <Button color="secondary" onClick={()=>props.filteredButton(props.id, 'All')}>All</Button>
+            {/*<button onClick={()=>props.filteredButton(props.id,'Active')}>Active</button>*/}
+            <Button variant="contained" color="success" onClick={()=>props.filteredButton(props.id,'Active')}>Active</Button>
+           {/* <button onClick={()=>props.filteredButton(props.id,'Completed')}>Completed</button>*/}
+            <Button variant="outlined" color="error" onClick={()=>props.filteredButton(props.id,'Completed')}>Completed</Button>
         </div>
     )
 }

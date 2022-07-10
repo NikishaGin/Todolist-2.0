@@ -3,6 +3,8 @@ import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import ButtonAppBar from "./ButtonAppBar";
+import {Container, Grid, Paper} from "@mui/material";
 
 export type filteredButtonType = "All" | "Active" | "Completed"
 
@@ -74,34 +76,44 @@ function App() {
 
     return (
         <div className="App">
-            <AddItemForm callback={AddTodolist}/>
-            {todolists.map((mapID)=>{
+            <ButtonAppBar/>
+            <Container fixed>
+                <Grid container style={{padding:"20px"}}>
+                    <AddItemForm callback={AddTodolist}/>
+                </Grid>
+                <Grid container spacing={3}>
+                {todolists.map((mapID)=>{
 
-                let filterTasks =  tasks[mapID.id]
+                    let filterTasks =  tasks[mapID.id]
 
-                if (mapID.filter === "Active") {
-                    filterTasks = tasks[mapID.id].filter((filtered)=>filtered.isDone === true)
-                }
+                    if (mapID.filter === "Active") {
+                        filterTasks = tasks[mapID.id].filter((filtered)=>filtered.isDone === true)
+                    }
 
-                if (mapID.filter === "Completed") {
-                    filterTasks = tasks[mapID.id].filter((filtered)=>filtered.isDone === false)
-                }
+                    if (mapID.filter === "Completed") {
+                        filterTasks = tasks[mapID.id].filter((filtered)=>filtered.isDone === false)
+                    }
 
-                return (
-                    <Todolist key={mapID.id}
-                              id={mapID.id}
-                              title={mapID.title}
-                              tasks={filterTasks}
-                              addTasks={addTasks}
-                              removeTasks={removeTasks}
-                              filteredButton={filteredButton}
-                              filter={mapID.filter}
-                              checkedTasks={checkedTasks}
-                              removeTodolist={removeTodolist}
-                              editTodolist={editTodolist}
-                              editTasks={editTasks}/>
-                )
-            })}
+                    return <Grid item>
+                        <Paper style={{padding: "10px"}}>
+                        <Todolist key={mapID.id}
+                                  id={mapID.id}
+                                  title={mapID.title}
+                                  tasks={filterTasks}
+                                  addTasks={addTasks}
+                                  removeTasks={removeTasks}
+                                  filteredButton={filteredButton}
+                                  filter={mapID.filter}
+                                  checkedTasks={checkedTasks}
+                                  removeTodolist={removeTodolist}
+                                  editTodolist={editTodolist}
+                                  editTasks={editTasks}/>
+                        </Paper>
+                            </Grid>
+                })}
+                </Grid>
+            </Container>
+
         </div>
     );
 }
