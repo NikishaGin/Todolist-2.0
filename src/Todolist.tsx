@@ -6,13 +6,13 @@ import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {pink} from "@mui/material/colors";
 
-type TasksType = {
+export type TasksType = {
     id: string,
     title: string,
     isDone: boolean
 }
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     tasks: TasksType []

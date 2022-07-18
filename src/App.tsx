@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import {TasksType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
@@ -12,6 +12,10 @@ export type TodolistsType = {
     id: string
     title: string
     filter: filteredButtonType
+}
+
+export type TasksStateType = {
+    [key: string]: Array<TasksType>
 }
 
 function App() {
