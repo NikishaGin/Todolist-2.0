@@ -8,7 +8,7 @@ import {Container, Grid, Paper} from "@mui/material";
 
 export type filteredButtonType = "All" | "Active" | "Completed"
 
-export type TodolistsType = {
+export type TodoListsType = {
     id: string
     title: string
     filter: filteredButtonType
@@ -23,7 +23,7 @@ function App() {
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolists, setTodolists] = useState<Array<TodolistsType>>([
+    let [todolists, setTodolists] = useState<Array<TodoListsType>>([
         {id: todolistID1, title: 'What to learn', filter: 'All'},
         {id: todolistID2, title: 'What to buy', filter: 'All'},
     ])
@@ -41,41 +41,42 @@ function App() {
         ]
     })
 
-    const editTodolist = (todolistID: string,newTitle: string) => {
-            setTodolists([...todolists.map((edit)=>edit.id === todolistID ? {...edit,title:newTitle}: edit)])
-    }
-
-    const editTasks = (todolistID: string, taskID: string,newTitle: string) => {
-        setTasks({...tasks,[todolistID]:tasks[todolistID].map((el)=>el.id === taskID ? {...el,title:newTitle}:el)})
-    }
-
     const removeTodolist = (id:string) => {
         setTodolists([...todolists.filter((filteredTodo)=>filteredTodo.id !== id)])
     }
-
-    const checkedTasks = (todolistID: string,id: string,isDone: boolean) => {
-        setTasks({...tasks,[todolistID]:tasks[todolistID].map((mapChecked)=>mapChecked.id === id ? {...mapChecked,isDone}:mapChecked)})
+    const AddTodolist = (newTitle: string) => {
+        let newID = v1()
+        let newTodolist: TodoListsType = {id: newID, title: newTitle, filter: 'All'}
+        setTodolists([newTodolist,...todolists])
+        setTasks({...tasks,[newID]:[]})
     }
 
-
-    const addTasks = (todolistID: string,newTitle: string) => {
-        let newTasks = {id: v1(), title: newTitle, isDone: true}
-        setTasks({...tasks,[todolistID]:[newTasks,...tasks[todolistID]]})
-    }
-
-    const removeTasks = (todolistID: string,id:string) => {
-        setTasks({...tasks,[todolistID]:tasks[todolistID].filter((remove)=>remove.id !== id)})
+    const editTodolist = (todolistID: string,newTitle: string) => {
+            setTodolists([...todolists.map((edit)=>edit.id === todolistID ? {...edit,title:newTitle}: edit)])
     }
 
     function filteredButton(todolistID: string, value: filteredButtonType) {
         setTodolists(todolists.map((filtered)=>filtered.id === todolistID ? {...filtered, filter: value}:filtered))
     }
 
-    const AddTodolist = (newTitle: string) => {
-        let newID = v1()
-        let newTodolist: TodolistsType = {id: newID, title: newTitle, filter: 'All'}
-        setTodolists([newTodolist,...todolists])
-        setTasks({...tasks,[newID]:[]})
+
+
+
+    const removeTasks = (todolistID: string,id:string) => {
+        setTasks({...tasks,[todolistID]:tasks[todolistID].filter((remove)=>remove.id !== id)})
+    }
+
+    const addTasks = (todolistID: string,newTitle: string) => {
+        let newTasks = {id: v1(), title: newTitle, isDone: true}
+        setTasks({...tasks,[todolistID]:[newTasks,...tasks[todolistID]]})
+    }
+
+    const editTasks = (todolistID: string, taskID: string,newTitle: string) => {
+        setTasks({...tasks,[todolistID]:tasks[todolistID].map((el)=>el.id === taskID ? {...el,title:newTitle}:el)})
+    }
+
+    const checkedTasks = (todolistID: string,id: string,isDone: boolean) => {
+        setTasks({...tasks,[todolistID]:tasks[todolistID].map((mapChecked)=>mapChecked.id === id ? {...mapChecked,isDone}:mapChecked)})
     }
 
     return (

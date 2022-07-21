@@ -1,5 +1,5 @@
 import {ChangeEvent, useState} from "react";
-import {filteredButtonType, TodolistsType} from "./App";
+import {filteredButtonType, TodoListsType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
@@ -44,8 +44,6 @@ export const Todolist = (props: TodolistType) => {
     const editTasksHandler = (el: string,newTitle: string) => {
         props.editTasks(props.id,el,newTitle)
     }
-
-
 
     return (
         <div>
