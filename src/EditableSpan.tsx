@@ -1,5 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import {TextField} from "@mui/material";
+import React from "react";
 
 type PropsType = {
     title: string
@@ -7,7 +8,7 @@ type PropsType = {
 }
 
 
-export const EditableSpan = (props: PropsType) => {
+export const EditableSpan = React.memo( (props: PropsType) => {
     let [newTitle, setNewTitle] = useState(props.title)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,4 +43,4 @@ export const EditableSpan = (props: PropsType) => {
             />
             : <span onClick={editTrueAndFalse}>{props.title}</span>
     )
-}
+})

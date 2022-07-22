@@ -1,12 +1,13 @@
 import {ChangeEvent, useState} from "react";
 import {Button, IconButton, TextField} from "@mui/material";
 import {AddShoppingCart} from "@mui/icons-material";
+import React from "react";
 
 type PropsType = {
     callback:(newTitle: string)=>void
 }
 
-export const AddItemForm = (props:PropsType) => {
+export const AddItemForm = React.memo( (props:PropsType) => {
 
 
     let [title, setTitle] = useState('')
@@ -31,4 +32,4 @@ export const AddItemForm = (props:PropsType) => {
             </IconButton>
         </div>
     )
-}
+})

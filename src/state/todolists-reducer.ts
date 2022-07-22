@@ -6,13 +6,9 @@ type bossTodoListsType = removeTodoListsACType
     | changeTodoListTitleACType
     | changeTodoListFilterACType
 
-export let todolistID1 = v1()
-export let todolistID2 = v1()
 
-const initialState: TodoListsType [] = [
-    {id: todolistID1, title: 'What to learn', filter: 'All'},
-    {id: todolistID2, title: 'What to buy', filter: 'All'},
-]
+
+const initialState: TodoListsType [] = []
 
 export const todoListsReducer = (state: TodoListsType [] = initialState , action: bossTodoListsType): TodoListsType [] => {
     switch (action.type) {
@@ -27,11 +23,14 @@ export const todoListsReducer = (state: TodoListsType [] = initialState , action
             return [...state].map((el) => el.id === action.id ? {...el, title: action.title} : el)
         }
         case "CHANGE-TODOLIST-FILTER": {
-            const todolist = state.find(tl => tl.id === action.id);
+            return [
+                ...state.map(el => el.id === action.id ? {...el, filter: action.filter} : el)
+            ]
+/*            const todolist = state.find(tl => tl.id === action.id);
             if (todolist) {
                 todolist.filter = action.filter;
             }
-            return [...state];
+            return [...state];*/
         }
         default:
             return state

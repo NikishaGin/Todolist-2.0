@@ -1,6 +1,6 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import {addTodoListsACType, removeTodoListsACType, todolistID1, todolistID2} from "./todolists-reducer";
+import {addTodoListsACType, removeTodoListsACType} from "./todolists-reducer";
 
 type bossTaskType = removeTaskACType
     | addTaskACType
@@ -9,18 +9,7 @@ type bossTaskType = removeTaskACType
     | addTodoListsACType
     | removeTodoListsACType
 
-const initialState: TasksStateType = {
-    [todolistID1]: [
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'ReactJS', isDone: false},
-
-    ],
-    [todolistID2]: [
-        {id: v1(), title: 'Rest API', isDone: true},
-        {id: v1(), title: 'GraphQL', isDone: false},
-    ]
-}
+const initialState: TasksStateType = {}
 
 export const taskReducer = (state: TasksStateType = initialState , action: bossTaskType): TasksStateType => {
     switch (action.type) {
@@ -85,7 +74,7 @@ export const changeTaskStatusAC = (todolistId2: string,taskID: string,isDone: bo
 }
 
 type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
-export const changeTaskTitleAC = (taskID: string, title: string, todolistId2: string) => {
+export const changeTaskTitleAC = (todolistId2: string,taskID: string, title: string) => {
     return {
         type: "CHANGE-TASK-TITLE", taskID, title, todolistId2
     }as const
