@@ -3,12 +3,12 @@ import {Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {pink} from "@mui/material/colors";
 import {EditableSpan} from "./EditableSpan";
-import {TasksType} from "./Todolist";
+import {TaskStatuses, TaskType} from "../api/todolists-api";
 
 type PropsTaskType = {
-    task: TasksType
+    task: TaskType
     todolistID: string
-    checkedTasks: (todolistID: string, id: string, isDone: boolean) => void
+    checkedTasks: (todolistID: string,id: string, status: TaskStatuses ) => void
     removeTasks: (todolistID: string, id: string) => void
     editTasks: (todolistID: string, taskID: string, newTitle: string) => void
 
@@ -17,7 +17,7 @@ type PropsTaskType = {
 export const Task = React.memo( (props: PropsTaskType) => {
     let checkedHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        props.checkedTasks(props.todolistID, props.task.id, newIsDoneValue)
+        props.checkedTasks(props.todolistID, props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New)
     }
 
     const removeTasksHandler = useCallback ((todolistID: string, id: string) => {
@@ -36,7 +36,7 @@ export const Task = React.memo( (props: PropsTaskType) => {
             <Checkbox
                 defaultChecked
                 sx={{color: pink[800], '&.Mui-checked': {color: pink[600],},}}
-                onChange={checkedHandler} checked={props.task.isDone}
+                onChange={checkedHandler} checked={props.task.status === TaskStatuses.Completed}
             />
             <EditableSpan title={props.task.title} callback={(newTitle) => editTasksHandler(props.task.id, newTitle)}/>
         </li>

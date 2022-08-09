@@ -1,27 +1,21 @@
-import {ChangeEvent, useCallback, useState} from "react";
-import {filteredButtonType, TodoListsType} from "./App";
+import {useCallback,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Button,IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {pink} from "@mui/material/colors";
 import React from "react";
 import {Task} from "./Task";
-
-export type TasksType = {
-    id: string,
-    title: string,
-    isDone: boolean
-}
+import {filteredButtonType} from "../state/todolists-reducer";
+import {TaskStatuses, TaskType} from "../api/todolists-api";
 
 export type TodolistType = {
     id: string
     title: string
-    tasks: TasksType []
+    tasks: TaskType []
     addTasks: (todolistID: string, newTitle: string) => void
     removeTasks: (todolistID: string, id: string) => void
     filter: string
-    checkedTasks: (todolistID: string, id: string, isDone: boolean) => void
+    checkedTasks: (todolistID: string,id: string, status: TaskStatuses ) => void
     filteredButton: (todolistID: string, value: filteredButtonType) => void
     removeTodolist: (id: string) => void
     editTodolist: (todolistID: string, newTitle: string) => void
@@ -41,24 +35,21 @@ export const Todolist = React.memo((props: TodolistType) => {
     let tasksForTodolist = props.tasks
 
     if (props.filter === "Active") {
-        tasksForTodolist = props.tasks.filter((filtered) => filtered.isDone === true)
+        tasksForTodolist = props.tasks.filter((filtered) => filtered.status === TaskStatuses.New)
     }
 
     if (props.filter === "Completed") {
-        tasksForTodolist = props.tasks.filter((filtered) => filtered.isDone === false)
+        tasksForTodolist = props.tasks.filter((filtered) => filtered.status === TaskStatuses.Completed)
     }
-
 
     const onclickAllHandler = useCallback(() => props.filteredButton(props.id, 'All'), [props.filteredButton, props.id])
     const onclickActiveHandler = useCallback(() => props.filteredButton(props.id, 'Active'), [props.filteredButton, props.id])
     const onclickCompletedHandler = useCallback(() => props.filteredButton(props.id, 'Completed'), [props.filteredButton, props.id])
 
-
     return (
         <div>
             <h3>
                 <EditableSpan title={props.title} callback={editTodolistHandler}/>
-                {/*<button onClick={()=>props.removeTodolist(props.id)}>X</button>*/}
                 <IconButton aria-label="delete">
                     <Delete onClick={() => props.removeTodolist(props.id)}/>
                 </IconButton>

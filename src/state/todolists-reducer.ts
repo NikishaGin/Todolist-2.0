@@ -1,5 +1,5 @@
-import {filteredButtonType, TodoListsType} from "../App";
 import {v1} from "uuid";
+import {TodolistType} from "../api/todolists-api";
 
 type bossTodoListsType = removeTodoListsACType
     | addTodoListsACType
@@ -7,16 +7,21 @@ type bossTodoListsType = removeTodoListsACType
     | changeTodoListFilterACType
 
 
+export type filteredButtonType = "All" | "Active" | "Completed"
+export type TodolistDomainType = TodolistType & {
+    filter: filteredButtonType
+}
 
-const initialState: TodoListsType [] = []
 
-export const todoListsReducer = (state: TodoListsType [] = initialState , action: bossTodoListsType): TodoListsType [] => {
+const initialState: TodolistDomainType [] = []
+
+export const todoListsReducer = (state: TodolistDomainType [] = initialState, action: bossTodoListsType): TodolistDomainType [] => {
     switch (action.type) {
         case "REMOVE-TODOLIST": {
             return state.filter((el) => el.id !== action.id)
         }
         case "ADD-TODOLIST": {
-            let newTodoLists: TodoListsType = {id: action.todolistId, title: action.title, filter: 'All'}
+            let newTodoLists: TodolistDomainType = {id: action.todolistId, title: action.title, filter: 'All', addedDate: '', order: 0}
             return [...state, newTodoLists]
         }
         case "CHANGE-TODOLIST-TITLE": {
@@ -26,11 +31,6 @@ export const todoListsReducer = (state: TodoListsType [] = initialState , action
             return [
                 ...state.map(el => el.id === action.id ? {...el, filter: action.filter} : el)
             ]
-/*            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                todolist.filter = action.filter;
-            }
-            return [...state];*/
         }
         default:
             return state
@@ -64,3 +64,4 @@ export const changeTodoListFilterAC = (todolistId2: string, newFilter: filteredB
         type: 'CHANGE-TODOLIST-FILTER', id: todolistId2, filter: newFilter
     } as const
 }
+
