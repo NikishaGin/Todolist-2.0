@@ -20,7 +20,7 @@ export const GetTodolist = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistsApi.createTodolist("Nikita")
+        todolistsApi.createTodolist("")
             .then((res) => {
                 setState(res.data)
             })
@@ -32,7 +32,7 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistsApi.deleteTodolist("5e74bc47-a13f-4360-861c-1105d6bc8d11")
+        todolistsApi.deleteTodolist("9d8e253b-614d-4b1e-8fab-6adfc8169103")
             .then((res) => {
                 setState(res.data)
             })
@@ -44,7 +44,7 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistsApi.updateTodolist("89472aef-d46f-44a1-8bbc-08a280afc87f", 'AAAAAAAAAAAAAAA')
+        todolistsApi.updateTodolist("", '')
             .then((res) => {
                 setState(res.data)
             })
@@ -56,7 +56,7 @@ export const UpdateTodolistTitle = () => {
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistsApi.getTasks('d8e0c16e-41b4-4b85-8051-f69ee46e21a5')
+        todolistsApi.getTasks('')
             .then((res) => {
                 setState(res.data)
             })
@@ -88,14 +88,15 @@ export const CreateTasks = () => {
     return <div>{JSON.stringify(state)}</div>
 }
 
+/*
 export const UpdateTasksTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistsApi.updateTask('','','IT-KAMASUTRA')
+        todolistsApi.updateTask('','','')
             .then((res) => {
                 setState(res.data)
             })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
-}
+}*/

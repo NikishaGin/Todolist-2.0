@@ -58,9 +58,9 @@ function AppWithReducers() {
         dispatchTasks(action)
     }
     const addTodolist = (newTitle: string) => {
-        const action = addTodoListsAC(newTitle)
+/*        const action = addTodoListsAC(newTitle)
         dispatchTodoLists(action)
-        dispatchTasks(action)
+        dispatchTasks(action)*/
     }
 
     const changeTodoListTitle = (todolistID: string, newTitle: string) => {
@@ -80,8 +80,8 @@ function AppWithReducers() {
     }
 
     const addTasks = (todolistID: string, newTitle: string) => {
-        const action = addTaskAC(todolistID, newTitle)
-        dispatchTasks(action)
+      /*  const action = addTaskAC(todolistID, newTitle)
+        dispatchTasks(action)*/
     }
 
     const changeTaskStatus = (todolistID: string, id: string, status: TaskStatuses) => {

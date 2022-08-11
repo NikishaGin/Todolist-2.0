@@ -1,4 +1,4 @@
-import {useCallback,} from "react";
+import {useCallback, useEffect,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button,IconButton} from "@mui/material";
@@ -7,6 +7,8 @@ import React from "react";
 import {Task} from "./Task";
 import {filteredButtonType} from "../state/todolists-reducer";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
+import {useTypedDispatch} from "../store/store";
+import {fetchTasksTC, setTaskAC} from "../state/task-reducer";
 
 export type TodolistType = {
     id: string
@@ -23,6 +25,13 @@ export type TodolistType = {
 }
 
 export const Todolist = React.memo((props: TodolistType) => {
+
+    const dispatch = useTypedDispatch()
+
+    useEffect(()=>{
+
+        dispatch(fetchTasksTC(props.id))
+    },[props.id])
 
     const AddItemFormHandler = useCallback((newTitle: string) => {
         props.addTasks(props.id, newTitle)
